@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4ec936b-9eac-4755-a244-50f29a76d39e" name="Changes" comment="" />
+    <list default="true" id="f4ec936b-9eac-4755-a244-50f29a76d39e" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Shop/src/main/java/Shop/Core/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/Shop/src/main/java/Shop/Core/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Warehouse/target/classes/com/WarehouseCore/Warehouse.class" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -22,6 +26,13 @@
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
   </component>
   <component name="ProjectId" id="2AI5XwyHNthTcBtC2XKeerGJZ2f" />
   <component name="ProjectViewState">
@@ -88,5 +99,16 @@
       <updated>1654684303680</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
