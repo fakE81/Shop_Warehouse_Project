@@ -12,6 +12,5 @@ public class Main {
         System.out.println(Warehouse.getTools());
 
         System.out.println("Shop Pull Request");
-        System.out.println("Shop Pull Request");
     }
 }
