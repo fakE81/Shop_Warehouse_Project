@@ -13,7 +13,5 @@ public class Main {
 
         System.out.println("Shop Pull Request");
         System.out.println("Shop Pull Request");
-        System.out.println("Shop Pull Request");
-        System.out.println("Shop Pull Request");
     }
 }
