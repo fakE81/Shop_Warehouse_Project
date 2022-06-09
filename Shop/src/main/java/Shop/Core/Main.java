@@ -10,6 +10,5 @@ public class Main {
     public static void main(String[] args) {
         SpringApplication.run(Main.class);
         System.out.println(Warehouse.getTools());
-        System.out.println();
     }
 }

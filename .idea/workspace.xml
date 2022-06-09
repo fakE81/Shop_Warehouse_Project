@@ -7,6 +7,7 @@
     <list default="true" id="f4ec936b-9eac-4755-a244-50f29a76d39e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Shop/src/main/java/Shop/Core/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/Shop/src/main/java/Shop/Core/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Shop/src/main/java/Shop/Core/Test.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,7 +111,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="master" />
+                        <option value="New_Shop" />
                       </list>
                     </value>
                   </entry>
