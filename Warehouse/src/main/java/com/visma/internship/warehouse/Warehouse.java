@@ -1,4 +1,4 @@
-package Warehouse.Core;
+package com.visma.internship.warehouse;
 
 public class Warehouse {
 
