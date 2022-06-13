@@ -1,4 +1,4 @@
-package com.visma.internship.shop;
+package com.visma.internship.warehouse;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
