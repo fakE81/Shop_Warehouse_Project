@@ -1,16 +1,29 @@
 package com.visma.internship.warehouse;
 
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/")
+import java.util.ArrayList;
+
+@RequestMapping("/api")
 @RestController
 public class WarehouseController {
-    @GetMapping()
-    public static String getTools(){
-        return "Sveikisveiki!!";
+
+    private final WarehouseRepository warehouseRepository;
+    @Autowired
+    public WarehouseController(WarehouseRepository warehouseRepository) {
+        this.warehouseRepository = warehouseRepository;
+    }
+
+    @GetMapping("/items")
+    public ArrayList<Item> printWarehouseItems(){
+        return warehouseRepository.getItems();
+    }
+
+    @PostMapping("/items")
+    public void addItem(@RequestBody Item item){
+        warehouseRepository.addItem(item);
     }
 
 }
