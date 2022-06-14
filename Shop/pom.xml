@@ -41,7 +41,7 @@
     </dependencies>
 
     <build>
-        <finalName>Shop</finalName>
+        <finalName>shop</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
