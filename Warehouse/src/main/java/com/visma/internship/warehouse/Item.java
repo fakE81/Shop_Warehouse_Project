@@ -4,6 +4,8 @@ package com.visma.internship.warehouse;
 
 public class Item {
 
+
+    private long id;
     private String name;
     private String description;
     private double price;
