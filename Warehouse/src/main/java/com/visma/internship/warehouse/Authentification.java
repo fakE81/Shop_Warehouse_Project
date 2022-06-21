@@ -1,11 +1,9 @@
 package com.visma.internship.warehouse;
 
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -45,12 +43,18 @@ public class Authentification {
     public UserDetailsService userDetailsService(){
         // Sukuriam nauja User.
         List<UserDetails> users = new ArrayList<>();
+
         List<GrantedAuthority> adminAuthorities = new ArrayList<>();
         List<GrantedAuthority> userAuthorities = new ArrayList<>();
+
         adminAuthorities.add(new SimpleGrantedAuthority("ADMIN"));
         userAuthorities.add(new SimpleGrantedAuthority("TEST"));
-        users.add(new User("admin",passwordEncoder().encode("admin"),adminAuthorities));
-        users.add(new User("test",passwordEncoder().encode("test"),userAuthorities));
+
+        // Singleton panaudoti arba lokaliai taip:)
+        BCryptPasswordEncoder encoder = passwordEncoder();
+
+        users.add(new User("admin",encoder.encode("admin"),adminAuthorities));
+        users.add(new User("test",encoder.encode("test"),userAuthorities));
 
 
         return new InMemoryUserDetailsManager(users);

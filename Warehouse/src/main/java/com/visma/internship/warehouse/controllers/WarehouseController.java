@@ -1,12 +1,12 @@
-package com.visma.internship.warehouse;
+package com.visma.internship.warehouse.controllers;
 
 
+import com.visma.internship.Item;
+import com.visma.internship.warehouse.services.WarehouseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -36,15 +36,13 @@ public class WarehouseController {
     }
 
     @PutMapping("/items/{id}")
-    public String sellItem(@PathVariable("id") int id, HttpServletResponse response){
+    public ResponseEntity<String> sellItem(@PathVariable("id") int id){
         boolean status = warehouseRepository.removeItemById(id);
         if(status){
-            response.setStatus(201);
-            return "Sold item!";
+            return ResponseEntity.ok("Item sold!");
         }
         else{
-            response.setStatus(400);
-            return "No item found!";
+            return ResponseEntity.notFound().build();
         }
     }
 

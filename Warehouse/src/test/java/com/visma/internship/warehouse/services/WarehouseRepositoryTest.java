@@ -1,13 +1,12 @@
-package com.visma.internship.warehouse;
+package com.visma.internship.warehouse.services;
 
+import com.visma.internship.Item;
+import com.visma.internship.warehouse.services.WarehouseRepository;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class WarehouseRepositoryTest {
-    // Su netaisyklingais duomenims Unit testai
-    private WarehouseRepository warehouseRepository = new WarehouseRepository();
+    private final WarehouseRepository warehouseRepository = new WarehouseRepository();
 
     @Test
     void addItemTest() {
@@ -23,9 +22,15 @@ class WarehouseRepositoryTest {
         warehouseRepository.addItem(item);
         boolean removed = warehouseRepository.removeItemById(4);
         Assert.assertEquals(19,warehouseRepository.getItemById(4).get().getQuantity());
-        Assert.assertEquals(true,removed);
+        Assert.assertTrue(removed);
 
         removed = warehouseRepository.removeItemById(5);
-        Assert.assertEquals(false,removed);
+        Assert.assertFalse(removed);
+
+        removed = warehouseRepository.removeItemById(-5);
+        Assert.assertFalse(removed);
+
+        removed = warehouseRepository.removeItemById(Integer.MAX_VALUE+1);
+        Assert.assertFalse(removed);
     }
 }

@@ -7,7 +7,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 
 @SpringBootApplication
 public class Main extends SpringBootServletInitializer{
-
+    // Nesiuncia laisku, kai uzdedu like per github?
     public static void main(String[] args) {
         SpringApplication.run(Main.class);
     }
