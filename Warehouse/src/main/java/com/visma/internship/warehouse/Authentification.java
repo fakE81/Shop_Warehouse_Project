@@ -1,5 +1,6 @@
 package com.visma.internship.warehouse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,6 +21,8 @@ import java.util.List;
 @EnableWebSecurity
 public class Authentification {
 
+    private BCryptPasswordEncoder bCrypt = new BCryptPasswordEncoder();
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.authorizeRequests()
@@ -36,7 +39,7 @@ public class Authentification {
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return bCrypt;
     }
 
     @Bean
@@ -50,12 +53,8 @@ public class Authentification {
         adminAuthorities.add(new SimpleGrantedAuthority("ADMIN"));
         userAuthorities.add(new SimpleGrantedAuthority("TEST"));
 
-        // Singleton panaudoti arba lokaliai taip:)
-        BCryptPasswordEncoder encoder = passwordEncoder();
-
-        users.add(new User("admin",encoder.encode("admin"),adminAuthorities));
-        users.add(new User("test",encoder.encode("test"),userAuthorities));
-
+        users.add(new User("admin",passwordEncoder().encode("admin"),adminAuthorities));
+        users.add(new User("test",passwordEncoder().encode("test"),userAuthorities));
 
         return new InMemoryUserDetailsManager(users);
     }
