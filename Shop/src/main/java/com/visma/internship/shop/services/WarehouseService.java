@@ -23,7 +23,7 @@ public class WarehouseService {
     String warehouseUrl;
 
     public List<Item> getItems(){
-        String url = "http://localhost:8081/warehouse/api/items";
+        String url = warehouseUrl+"/api/items";
         ResponseEntity<ArrayList<Item>> response = restTemplate.exchange(
                 url,
                 HttpMethod.GET,
@@ -47,7 +47,7 @@ public class WarehouseService {
         return response.getBody();
     }
     public ResponseEntity<String> sellItem(int id){
-        String url = "http://localhost:8081/warehouse/api/items/"+id;
+        String url = warehouseUrl+"/api/items/"+id;
 
         try{
             ResponseEntity<String> response = restTemplate.exchange(
