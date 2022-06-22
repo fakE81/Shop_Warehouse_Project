@@ -16,6 +16,7 @@ import java.util.Optional;
 public class WarehouseController {
 
     private final WarehouseRepository warehouseRepository;
+
     @Autowired
     public WarehouseController(WarehouseRepository warehouseRepository) {
         this.warehouseRepository = warehouseRepository;
