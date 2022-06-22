@@ -19,8 +19,9 @@ public class WarehouseService {
     @Autowired
     RestTemplate restTemplate;
 
+    // Neparasius sito private, default: protected yra?
     @Value("${warehouse.url}")
-    String warehouseUrl;
+    private String warehouseUrl;
 
     public List<Item> getItems(){
         String url = warehouseUrl+"/api/items";
@@ -36,7 +37,6 @@ public class WarehouseService {
 
     public Item getItem(int id){
         String url = warehouseUrl+"/api/item/"+id;
-        System.out.println(url);
 
         ResponseEntity<Item> response = restTemplate.exchange(
                 url,
