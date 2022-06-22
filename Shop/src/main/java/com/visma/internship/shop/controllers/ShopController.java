@@ -1,6 +1,5 @@
 package com.visma.internship.shop.controllers;
 
-
 import com.visma.internship.Item;
 import com.visma.internship.shop.services.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.List;
+
 @RequestMapping("/shop")
 @RestController
 public class ShopController {
@@ -26,7 +27,7 @@ public class ShopController {
     }
 
     @RequestMapping("/items")
-    public ArrayList<Item> getItems(){
+    public List<Item> getItems(){
         return warehouseService.getItems();
     }
 

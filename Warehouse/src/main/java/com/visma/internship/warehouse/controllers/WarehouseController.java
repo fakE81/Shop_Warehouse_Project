@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RequestMapping("/api")
@@ -21,7 +22,7 @@ public class WarehouseController {
     }
 
     @GetMapping("/items")
-    public ArrayList<Item> printWarehouseItems(){
+    public List<Item> printWarehouseItems(){
         return warehouseRepository.getItems();
     }
 
@@ -37,7 +38,7 @@ public class WarehouseController {
 
     @PutMapping("/items/{id}")
     public ResponseEntity<String> sellItem(@PathVariable("id") int id){
-        boolean status = warehouseRepository.removeItemById(id);
+        boolean status = warehouseRepository.removeOneQntFromItemById(id);
         if(status){
             return ResponseEntity.ok("Item sold!");
         }

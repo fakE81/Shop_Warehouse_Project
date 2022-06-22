@@ -2,6 +2,7 @@ package com.visma.internship.shop.services;
 
 import com.visma.internship.Item;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class WarehouseService {
@@ -17,7 +19,10 @@ public class WarehouseService {
     @Autowired
     RestTemplate restTemplate;
 
-    public ArrayList<Item> getItems(){
+    @Value("${warehouse.url}")
+    String warehouseUrl;
+
+    public List<Item> getItems(){
         String url = "http://localhost:8081/warehouse/api/items";
         ResponseEntity<ArrayList<Item>> response = restTemplate.exchange(
                 url,
@@ -30,7 +35,8 @@ public class WarehouseService {
     }
 
     public Item getItem(int id){
-        String url = "http://localhost:8081/warehouse/api/item/"+id;
+        String url = warehouseUrl+"/api/item/"+id;
+        System.out.println(url);
 
         ResponseEntity<Item> response = restTemplate.exchange(
                 url,

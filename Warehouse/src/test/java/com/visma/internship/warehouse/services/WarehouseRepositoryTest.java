@@ -20,17 +20,17 @@ class WarehouseRepositoryTest {
     void removeItemById() {
         Item item = new Item(4,".",".",15,20);
         warehouseRepository.addItem(item);
-        boolean removed = warehouseRepository.removeItemById(4);
+        boolean removed = warehouseRepository.removeOneQntFromItemById(4);
         Assert.assertEquals(19,warehouseRepository.getItemById(4).get().getQuantity());
         Assert.assertTrue(removed);
 
-        removed = warehouseRepository.removeItemById(5);
+        removed = warehouseRepository.removeOneQntFromItemById(5);
         Assert.assertFalse(removed);
 
-        removed = warehouseRepository.removeItemById(-5);
+        removed = warehouseRepository.removeOneQntFromItemById(-5);
         Assert.assertFalse(removed);
 
-        removed = warehouseRepository.removeItemById(Integer.MAX_VALUE+1);
+        removed = warehouseRepository.removeOneQntFromItemById(Integer.MAX_VALUE+1);
         Assert.assertFalse(removed);
     }
 }

@@ -6,15 +6,14 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class Main extends SpringBootServletInitializer{
-    // Nesiuncia laisku, kai uzdedu like per github?
+public class WarehouseApplication extends SpringBootServletInitializer{
     public static void main(String[] args) {
-        SpringApplication.run(Main.class);
+        SpringApplication.run(WarehouseApplication.class);
     }
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(Main.class);
+        return application.sources(WarehouseApplication.class);
     }
 
 }

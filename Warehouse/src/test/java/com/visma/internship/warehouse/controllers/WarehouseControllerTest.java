@@ -59,8 +59,8 @@ class WarehouseControllerTest {
     @Test
     public void removeItem() throws Exception {
 
-        Mockito.when(warehouseRepository.removeItemById(500)).thenReturn(true);
-        Mockito.when(warehouseRepository.removeItemById(-1)).thenReturn(false);
+        Mockito.when(warehouseRepository.removeOneQntFromItemById(500)).thenReturn(true);
+        Mockito.when(warehouseRepository.removeOneQntFromItemById(-1)).thenReturn(false);
 
         mockMvc.perform(MockMvcRequestBuilders.put("/api/items/500/"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
