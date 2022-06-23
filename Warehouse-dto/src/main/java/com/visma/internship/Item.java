@@ -4,6 +4,7 @@ package com.visma.internship;
 import javax.persistence.*;
 
 @Entity
+@Table(name="item_table")
 public class Item {
 
 

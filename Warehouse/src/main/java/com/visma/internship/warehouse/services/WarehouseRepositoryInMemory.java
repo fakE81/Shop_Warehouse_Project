@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class WarehouseRepositoryInMemory implements WarehouseRepository{
-    
+
     private Map<Integer,Item> items = new HashMap<>();
 
     public WarehouseRepositoryInMemory() {
