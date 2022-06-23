@@ -1,8 +1,11 @@
 package com.visma.internship.warehouse.controllers;
 
 import com.google.gson.Gson;
-import com.visma.internship.Item;
-import com.visma.internship.warehouse.services.WarehouseRepositoryInMemory;
+import com.visma.internship.ItemDTO;
+import com.visma.internship.warehouse.entities.Item;
+import com.visma.internship.warehouse.services.WarehouseInMemoryRepository;
+import com.visma.internship.warehouse.services.WarehouseRepository;
+import com.visma.internship.warehouse.services.WarehouseRepositoryService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -11,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -24,17 +28,17 @@ class WarehouseControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    WarehouseRepositoryInMemory warehouseRepositoryInMemory;
+    WarehouseRepositoryService warehouseRepositoryService;
 
     @Test
     public void showListOfItems() throws Exception {
-        Item item = new Item(500,"Test","Test",20,60);
-        Item item2 = new Item(600,"Test","Test",20,60);
-        ArrayList<Item> items = new ArrayList<>();
-        items.add(item);
+        ItemDTO item1 = new ItemDTO(500,"Test","Test",20,60);
+        ItemDTO item2 = new ItemDTO(600,"Test","Test",20,60);
+        ArrayList<ItemDTO> items = new ArrayList<>();
+        items.add(item1);
         items.add(item2);
 
-        Mockito.when(warehouseRepositoryInMemory.getItems()).thenReturn(items);
+        Mockito.when(warehouseRepositoryService.findAllItems()).thenReturn(items);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/items/"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -59,8 +63,8 @@ class WarehouseControllerTest {
     @Test
     public void removeItem() throws Exception {
 
-        Mockito.when(warehouseRepositoryInMemory.removeOneQntFromItemById(500)).thenReturn(true);
-        Mockito.when(warehouseRepositoryInMemory.removeOneQntFromItemById(-1)).thenReturn(false);
+        Mockito.when(warehouseRepositoryService.sellItemById(500)).thenReturn(ResponseEntity.ok("ok"));
+        Mockito.when(warehouseRepositoryService.sellItemById(-1)).thenReturn(ResponseEntity.notFound().build());
 
         mockMvc.perform(MockMvcRequestBuilders.put("/api/items/500/"))
                 .andExpect(MockMvcResultMatchers.status().isOk());

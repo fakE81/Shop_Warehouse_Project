@@ -1,5 +1,4 @@
-package com.visma.internship;
-
+package com.visma.internship.warehouse.entities;
 
 import javax.persistence.*;
 
@@ -7,10 +6,9 @@ import javax.persistence.*;
 @Table(name="item_table")
 public class Item {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private long id;
     @Column(name = "name")
     private String name;
     @Column(name = "description")
@@ -24,7 +22,7 @@ public class Item {
 
     }
 
-    public Item(int id, String name, String description, double price, int quantity) {
+    public Item(long id, String name, String description, double price, int quantity) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -64,11 +62,11 @@ public class Item {
         this.quantity = quantity;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 }
