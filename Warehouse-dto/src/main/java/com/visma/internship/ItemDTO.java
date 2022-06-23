@@ -7,7 +7,6 @@ import javax.persistence.*;
 @Table(name="item_table")
 public class ItemDTO {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
