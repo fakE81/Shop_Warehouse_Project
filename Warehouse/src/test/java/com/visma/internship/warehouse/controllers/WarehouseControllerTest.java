@@ -2,7 +2,7 @@ package com.visma.internship.warehouse.controllers;
 
 import com.google.gson.Gson;
 import com.visma.internship.Item;
-import com.visma.internship.warehouse.services.WarehouseRepository;
+import com.visma.internship.warehouse.services.WarehouseRepositoryInMemory;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -24,7 +24,7 @@ class WarehouseControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    WarehouseRepository warehouseRepository;
+    WarehouseRepositoryInMemory warehouseRepositoryInMemory;
 
     @Test
     public void showListOfItems() throws Exception {
@@ -34,7 +34,7 @@ class WarehouseControllerTest {
         items.add(item);
         items.add(item2);
 
-        Mockito.when(warehouseRepository.getItems()).thenReturn(items);
+        Mockito.when(warehouseRepositoryInMemory.getItems()).thenReturn(items);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/items/"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -59,8 +59,8 @@ class WarehouseControllerTest {
     @Test
     public void removeItem() throws Exception {
 
-        Mockito.when(warehouseRepository.removeOneQntFromItemById(500)).thenReturn(true);
-        Mockito.when(warehouseRepository.removeOneQntFromItemById(-1)).thenReturn(false);
+        Mockito.when(warehouseRepositoryInMemory.removeOneQntFromItemById(500)).thenReturn(true);
+        Mockito.when(warehouseRepositoryInMemory.removeOneQntFromItemById(-1)).thenReturn(false);
 
         mockMvc.perform(MockMvcRequestBuilders.put("/api/items/500/"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
