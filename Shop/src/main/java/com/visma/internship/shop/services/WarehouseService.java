@@ -15,7 +15,7 @@ import java.util.List;
 
 @Service
 public class WarehouseService {
-    // Turbut nelabai iseis testukus sitai klasei padaryt, kai yra siunciama uzklausa i serveri.
+
     @Autowired
     RestTemplate restTemplate;
 
@@ -36,7 +36,6 @@ public class WarehouseService {
 
     public ItemDTO getItem(int id){
         String url = warehouseUrl+"/api/item/"+id;
-        System.out.println(url);
 
         ResponseEntity<ItemDTO> response = restTemplate.exchange(
                 url,

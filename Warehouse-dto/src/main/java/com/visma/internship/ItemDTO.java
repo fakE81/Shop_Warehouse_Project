@@ -1,22 +1,11 @@
 package com.visma.internship;
 
-
-import javax.persistence.*;
-
-@Entity
-@Table(name="item_table")
 public class ItemDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    @Column(name = "name")
     private String name;
-    @Column(name = "description")
     private String description;
-    @Column(name = "price")
     private double price;
-    @Column(name = "quantity")
     private int quantity;
 
     public ItemDTO(){

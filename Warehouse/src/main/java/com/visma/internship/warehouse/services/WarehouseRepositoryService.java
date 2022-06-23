@@ -5,6 +5,7 @@ import com.visma.internship.ItemDTO;
 import com.visma.internship.warehouse.entities.Item;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,7 @@ import java.util.Optional;
 
 @Service
 public class WarehouseRepositoryService {
+    // TODO: Conditional autowire!
     // Atsakingas uz konvertavima Item -> ItemDto
     private ModelMapper modelMapper;
 
@@ -53,7 +55,9 @@ public class WarehouseRepositoryService {
 
     private Optional<ItemDTO> convertItemToDto(Optional<Item> item){
         if(item.isPresent()){
-            return Optional.of(modelMapper.map(item.get(),ItemDTO.class));
+            ItemDTO itemDTO = new ItemDTO();
+            BeanUtils.copyProperties(item.get(),itemDTO);
+            return Optional.of(itemDTO);
         }else{
             return Optional.empty();
         }
