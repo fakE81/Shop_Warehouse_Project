@@ -22,6 +22,7 @@ public class WarehouseController {
 
     public WarehouseController(WarehouseRepositoryService warehouseRepositoryService) {
         this.warehouseRepositoryService = warehouseRepositoryService;
+
     }
 
     @GetMapping("/items")

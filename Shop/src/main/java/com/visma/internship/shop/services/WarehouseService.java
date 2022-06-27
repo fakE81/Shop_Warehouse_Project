@@ -19,8 +19,9 @@ public class WarehouseService {
     @Autowired
     RestTemplate restTemplate;
 
+    // Neparasius sito private, default: protected yra?
     @Value("${warehouse.url}")
-    String warehouseUrl;
+    private String warehouseUrl;
 
     public List<ItemDTO> getItems(){
         String url = warehouseUrl+"/api/items";
