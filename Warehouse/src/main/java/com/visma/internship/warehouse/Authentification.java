@@ -1,5 +1,7 @@
 package com.visma.internship.warehouse;
 
+import com.visma.internship.warehouse.entities.ShopUser;
+import com.visma.internship.warehouse.services.UserRepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +22,9 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 public class Authentification {
+
+    @Autowired
+    private UserRepositoryService userRepositoryService;
 
     private BCryptPasswordEncoder bCrypt = new BCryptPasswordEncoder();
 
@@ -44,17 +49,19 @@ public class Authentification {
 
     @Bean
     public UserDetailsService userDetailsService(){
-        List<UserDetails> users = new ArrayList<>();
+        return new InMemoryUserDetailsManager(getUserDetails());
+    }
 
-        List<GrantedAuthority> adminAuthorities = new ArrayList<>();
-        List<GrantedAuthority> userAuthorities = new ArrayList<>();
+    private List<UserDetails> getUserDetails(){
+        List<ShopUser> shopUsers = userRepositoryService.getUsers();
 
-        adminAuthorities.add(new SimpleGrantedAuthority("ADMIN"));
-        userAuthorities.add(new SimpleGrantedAuthority("TEST"));
+        List<UserDetails> usersDetails = new ArrayList<>();
+        for(ShopUser shopUser : shopUsers){
+            List<GrantedAuthority> authorities = new ArrayList<>();
+            authorities.add(new SimpleGrantedAuthority(shopUser.getRole()));
+            usersDetails.add(new User(shopUser.getName(),passwordEncoder().encode(shopUser.getPassword()),authorities));
+        }
 
-        users.add(new User("admin",passwordEncoder().encode("admin"),adminAuthorities));
-        users.add(new User("test",passwordEncoder().encode("test"),userAuthorities));
-
-        return new InMemoryUserDetailsManager(users);
+        return  usersDetails;
     }
 }

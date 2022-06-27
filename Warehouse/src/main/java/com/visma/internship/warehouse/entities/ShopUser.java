@@ -3,7 +3,8 @@ package com.visma.internship.warehouse.entities;
 import javax.persistence.*;
 
 @Entity
-public class User {
+@Table(name="user_table")
+public class ShopUser {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -14,13 +15,17 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    public User() {
+    @Column(name = "role")
+    private String role;
+
+    public ShopUser() {
     }
 
-    public User(long id, String name, String password) {
+    public ShopUser(long id, String name, String password, String role) {
         this.id = id;
         this.name = name;
         this.password = password;
+        this.role = role;
     }
 
     public long getId() {
@@ -45,5 +50,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
