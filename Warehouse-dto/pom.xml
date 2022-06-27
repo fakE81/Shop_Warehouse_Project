@@ -16,7 +16,6 @@
     <version>1.0-SNAPSHOT</version>
     <artifactId>warehouse-dto</artifactId>
 
-
     <properties>
         <maven.compiler.source>18</maven.compiler.source>
         <maven.compiler.target>18</maven.compiler.target>

@@ -1,7 +1,6 @@
 package com.visma.internship;
 
-public class Item {
-
+public class ItemDTO {
 
     private int id;
     private String name;
@@ -9,11 +8,11 @@ public class Item {
     private double price;
     private int quantity;
 
-    public Item(){
+    public ItemDTO(){
 
     }
 
-    public Item(int id, String name, String description, double price, int quantity) {
+    public ItemDTO(int id, String name, String description, double price, int quantity) {
         this.id = id;
         this.name = name;
         this.description = description;

@@ -1,11 +1,9 @@
 package com.visma.internship.shop.controllers;
 
-import com.visma.internship.Item;
-import com.visma.internship.shop.controllers.ShopController;
+import com.visma.internship.ItemDTO;
 import com.visma.internship.shop.services.WarehouseService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -31,13 +29,13 @@ class ShopControllerTest {
 
     @Test
     void showListOfItems() throws Exception {
-        Item item = new Item(500,"Test","Test",20,60);
-        Item item2 = new Item(600,"Test","Test",20,60);
-        ArrayList<Item> items = new ArrayList<>();
-        items.add(item);
-        items.add(item2);
+        ItemDTO itemDTO = new ItemDTO(500,"Test","Test",20,60);
+        ItemDTO itemDTO2 = new ItemDTO(600,"Test","Test",20,60);
+        ArrayList<ItemDTO> itemDTOS = new ArrayList<>();
+        itemDTOS.add(itemDTO);
+        itemDTOS.add(itemDTO2);
 
-        Mockito.when(warehouseService.getItems()).thenReturn(items);
+        Mockito.when(warehouseService.getItems()).thenReturn(itemDTOS);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/shop/items/"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -47,9 +45,9 @@ class ShopControllerTest {
 
     @Test
     void showItem() throws Exception {
-        Item item = new Item(500,"Test","Test",20,60);
+        ItemDTO itemDTO = new ItemDTO(500,"Test","Test",20,60);
 
-        Mockito.when(warehouseService.getItem(500)).thenReturn(item);
+        Mockito.when(warehouseService.getItem(500)).thenReturn(itemDTO);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/shop/item/500"))
                 .andExpect(MockMvcResultMatchers.status().isOk())

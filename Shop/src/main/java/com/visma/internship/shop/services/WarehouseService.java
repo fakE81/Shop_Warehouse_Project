@@ -1,6 +1,6 @@
 package com.visma.internship.shop.services;
 
-import com.visma.internship.Item;
+import com.visma.internship.ItemDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -15,7 +15,7 @@ import java.util.List;
 
 @Service
 public class WarehouseService {
-    // Turbut nelabai iseis testukus sitai klasei padaryt, kai yra siunciama uzklausa i serveri.
+
     @Autowired
     RestTemplate restTemplate;
 
@@ -23,9 +23,9 @@ public class WarehouseService {
     @Value("${warehouse.url}")
     private String warehouseUrl;
 
-    public List<Item> getItems(){
+    public List<ItemDTO> getItems(){
         String url = warehouseUrl+"/api/items";
-        ResponseEntity<ArrayList<Item>> response = restTemplate.exchange(
+        ResponseEntity<ArrayList<ItemDTO>> response = restTemplate.exchange(
                 url,
                 HttpMethod.GET,
                 setupHttpEntity(),
@@ -35,14 +35,14 @@ public class WarehouseService {
         return response.getBody();
     }
 
-    public Item getItem(int id){
+    public ItemDTO getItem(int id){
         String url = warehouseUrl+"/api/item/"+id;
 
-        ResponseEntity<Item> response = restTemplate.exchange(
+        ResponseEntity<ItemDTO> response = restTemplate.exchange(
                 url,
                 HttpMethod.GET,
                 setupHttpEntity(),
-                Item.class);
+                ItemDTO.class);
 
         return response.getBody();
     }
