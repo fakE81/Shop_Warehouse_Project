@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 @Repository
 public class WarehouseInMemoryRepository implements WarehouseRepository{
-    // Padaryti reiktu, kad veiktu per conditional autowire kazkaip:)
+
     private Map<Long, Item> items = new HashMap<>();
 
     public WarehouseInMemoryRepository() {
@@ -32,7 +32,7 @@ public class WarehouseInMemoryRepository implements WarehouseRepository{
         this.items.put(item.getId(), item);
     }
 
-    public boolean removeOneQntFromItemById(long id){
+    public boolean removeOneQntFromItemById(long id, String name){
         if(items.containsKey(id)){
             int lastQuantity = items.get(id).getQuantity();
             if(lastQuantity<=0){

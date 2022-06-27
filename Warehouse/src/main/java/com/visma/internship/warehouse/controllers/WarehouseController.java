@@ -4,6 +4,7 @@ package com.visma.internship.warehouse.controllers;
 import com.visma.internship.ItemDTO;
 import com.visma.internship.warehouse.entities.Item;
 import com.visma.internship.warehouse.services.WarehouseRepositoryService;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

@@ -2,14 +2,17 @@ package com.visma.internship.warehouse.services;
 
 
 import com.visma.internship.ItemDTO;
+import com.visma.internship.warehouse.Authentification;
 import com.visma.internship.warehouse.entities.Item;
+import com.visma.internship.warehouse.repositories.ActivityRepository;
 import com.visma.internship.warehouse.repositories.WarehouseRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,13 +23,15 @@ public class WarehouseRepositoryService {
     // Atsakingas uz konvertavima Item -> ItemDto
     private ModelMapper modelMapper;
 
-    @Autowired
     @Qualifier("repository")
     private final WarehouseRepository warehouseRepository;
 
-    public WarehouseRepositoryService(ModelMapper modelMapper, WarehouseRepository warehouseRepository) {
+    private final ActivityRepositoryService activityRepositoryService;
+
+    public WarehouseRepositoryService(ModelMapper modelMapper, WarehouseRepository warehouseRepository, ActivityRepositoryService activityRepositoryService) {
         this.modelMapper = modelMapper;
         this.warehouseRepository = warehouseRepository;
+        this.activityRepositoryService = activityRepositoryService;
     }
 
     public Optional<ItemDTO> findItemById(long id){
@@ -42,8 +47,11 @@ public class WarehouseRepositoryService {
     }
 
     public ResponseEntity<String> sellItemById(long id){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String name = authentication.getName();
         boolean status = warehouseRepository.removeOneQntFromItemById(id);
         if(status){
+            activityRepositoryService.saveActivity(id,name);
             return ResponseEntity.ok("Item sold!");
         }
         else{

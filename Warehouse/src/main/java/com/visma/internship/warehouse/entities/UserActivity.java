@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity
 @Table(name="activity_table")
 public class UserActivity {
-
+    // TODO: Quantity prideti nebent.
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -17,6 +17,11 @@ public class UserActivity {
     private long item_id;
 
     public UserActivity() {
+    }
+
+    public UserActivity(long user_id, long item_id) {
+        this.user_id = user_id;
+        this.item_id = item_id;
     }
 
     public UserActivity(long id, long user_id, long item_id) {
