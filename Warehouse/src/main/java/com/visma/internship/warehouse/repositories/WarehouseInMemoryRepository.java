@@ -32,7 +32,7 @@ public class WarehouseInMemoryRepository implements WarehouseRepository{
         this.items.put(item.getId(), item);
     }
 
-    public boolean removeOneQntFromItemById(long id, String name){
+    public boolean removeOneQntFromItemById(long id){
         if(items.containsKey(id)){
             int lastQuantity = items.get(id).getQuantity();
             if(lastQuantity<=0){

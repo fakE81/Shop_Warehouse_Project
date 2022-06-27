@@ -23,7 +23,7 @@ public class ActivityRepositoryService {
     public void saveActivity(long item_id,String name){
         List<ShopUser> shopUsers = userRepository.findAll();
         long user_id = findIdByName(shopUsers,name);
-        activityRepository.save(new UserActivity(item_id,user_id));
+        activityRepository.save(new UserActivity(user_id,item_id));
     }
 
     // Nelabai gerai jeigu vienodi username.
