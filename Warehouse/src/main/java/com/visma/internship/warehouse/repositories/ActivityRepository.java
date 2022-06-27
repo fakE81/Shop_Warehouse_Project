@@ -4,5 +4,5 @@ import com.visma.internship.warehouse.entities.UserActivity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ActivityRepository extends JpaRepository<UserActivity,Long> {
-    
+
 }
