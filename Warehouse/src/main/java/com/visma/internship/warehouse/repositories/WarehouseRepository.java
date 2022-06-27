@@ -1,4 +1,4 @@
-package com.visma.internship.warehouse.services;
+package com.visma.internship.warehouse.repositories;
 
 import com.visma.internship.warehouse.entities.Item;
 import org.springframework.stereotype.Repository;

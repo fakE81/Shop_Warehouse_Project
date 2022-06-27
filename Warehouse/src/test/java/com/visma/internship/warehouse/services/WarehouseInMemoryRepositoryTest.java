@@ -1,7 +1,8 @@
 package com.visma.internship.warehouse.services;
 
-import com.visma.internship.ItemDTO;
 import com.visma.internship.warehouse.entities.Item;
+import com.visma.internship.warehouse.repositories.WarehouseInMemoryRepository;
+import com.visma.internship.warehouse.repositories.WarehouseRepository;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 

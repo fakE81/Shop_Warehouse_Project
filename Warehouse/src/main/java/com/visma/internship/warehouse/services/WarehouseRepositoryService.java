@@ -3,48 +3,46 @@ package com.visma.internship.warehouse.services;
 
 import com.visma.internship.ItemDTO;
 import com.visma.internship.warehouse.entities.Item;
+import com.visma.internship.warehouse.repositories.WarehouseRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class WarehouseRepositoryService {
-    // TODO: Conditional autowire!
     // Atsakingas uz konvertavima Item -> ItemDto
     private ModelMapper modelMapper;
 
-    private final WarehouseRepository warehouseDatabaseRepository;
+    @Autowired
+    @Qualifier("repository")
+    private final WarehouseRepository warehouseRepository;
 
-    //Testavimo sumetimais visada paleista ant DatabaseRepository.
-    public WarehouseRepositoryService(ModelMapper modelMapper, WarehouseRepository warehouseDatabaseRepository) {
+    public WarehouseRepositoryService(ModelMapper modelMapper, WarehouseRepository warehouseRepository) {
         this.modelMapper = modelMapper;
-        this.warehouseDatabaseRepository = warehouseDatabaseRepository;
+        this.warehouseRepository = warehouseRepository;
     }
 
     public Optional<ItemDTO> findItemById(long id){
-        return convertItemToDto(warehouseDatabaseRepository.findItem(id));
+        return convertItemToDto(warehouseRepository.findItem(id));
     }
 
     public List<ItemDTO> findAllItems(){
-        return convertItemListToDtoList(warehouseDatabaseRepository.findAll());
+        return convertItemListToDtoList(warehouseRepository.findAll());
     }
 
-    // Nelabai gerai nes daug kartu pernaudojama.
     public void addItem(Item item){
-        warehouseDatabaseRepository.createItem(item);
+        warehouseRepository.createItem(item);
     }
 
     public ResponseEntity<String> sellItemById(long id){
-        boolean status = warehouseDatabaseRepository.removeOneQntFromItemById(id);
+        boolean status = warehouseRepository.removeOneQntFromItemById(id);
         if(status){
             return ResponseEntity.ok("Item sold!");
         }

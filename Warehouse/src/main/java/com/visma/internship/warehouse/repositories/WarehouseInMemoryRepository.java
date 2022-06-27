@@ -1,8 +1,6 @@
-package com.visma.internship.warehouse.services;
+package com.visma.internship.warehouse.repositories;
 
-import com.visma.internship.ItemDTO;
 import com.visma.internship.warehouse.entities.Item;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -37,6 +35,9 @@ public class WarehouseInMemoryRepository implements WarehouseRepository{
     public boolean removeOneQntFromItemById(long id){
         if(items.containsKey(id)){
             int lastQuantity = items.get(id).getQuantity();
+            if(lastQuantity<=0){
+                return false;
+            }
             items.get(id).setQuantity(lastQuantity-1);
             return true;
         } else{

@@ -44,7 +44,6 @@ public class Authentification {
 
     @Bean
     public UserDetailsService userDetailsService(){
-        // Sukuriam nauja User.
         List<UserDetails> users = new ArrayList<>();
 
         List<GrantedAuthority> adminAuthorities = new ArrayList<>();

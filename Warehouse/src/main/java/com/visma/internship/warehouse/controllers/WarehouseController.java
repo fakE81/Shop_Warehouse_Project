@@ -3,11 +3,7 @@ package com.visma.internship.warehouse.controllers;
 
 import com.visma.internship.ItemDTO;
 import com.visma.internship.warehouse.entities.Item;
-import com.visma.internship.warehouse.services.WarehouseDatabaseRepository;
-import com.visma.internship.warehouse.services.WarehouseRepository;
 import com.visma.internship.warehouse.services.WarehouseRepositoryService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

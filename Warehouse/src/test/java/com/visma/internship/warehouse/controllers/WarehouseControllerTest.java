@@ -3,8 +3,6 @@ package com.visma.internship.warehouse.controllers;
 import com.google.gson.Gson;
 import com.visma.internship.ItemDTO;
 import com.visma.internship.warehouse.entities.Item;
-import com.visma.internship.warehouse.services.WarehouseInMemoryRepository;
-import com.visma.internship.warehouse.services.WarehouseRepository;
 import com.visma.internship.warehouse.services.WarehouseRepositoryService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
