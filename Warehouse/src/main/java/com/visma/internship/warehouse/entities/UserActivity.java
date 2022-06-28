@@ -10,13 +10,9 @@ public class UserActivity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    // User gali tureti
-    @Column(name = "user")
-    @OneToOne
+    @ManyToOne
     private ShopUser shopUser;
 
-    //Vienas activity vienam item.
-    @Column(name = "item")
     @OneToOne
     private Item item;
 
