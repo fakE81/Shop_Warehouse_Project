@@ -22,6 +22,11 @@ public class WarehouseService {
     @Value("${warehouse.url}")
     private String warehouseUrl;
 
+    @Value("${login.username}")
+    private String username;
+    @Value("${login.password}")
+    private String password;
+
     public List<ItemDTO> getItems(){
         String url = warehouseUrl+"/api/items";
         ResponseEntity<ArrayList<ItemDTO>> response = restTemplate.exchange(
@@ -64,7 +69,7 @@ public class WarehouseService {
 
     public HttpEntity setupHttpEntity(){
         HttpHeaders header = new HttpHeaders();
-        header.setBasicAuth("admin","admin");
+        header.setBasicAuth(username,password);
         return new HttpEntity(header);
     }
 }

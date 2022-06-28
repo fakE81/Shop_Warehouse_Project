@@ -51,7 +51,10 @@ public class WarehouseRepositoryService {
         String name = authentication.getName();
         boolean status = warehouseRepository.removeOneQntFromItemById(id);
         if(status){
-            activityRepositoryService.saveActivity(id,name);
+            Optional<Item> item = warehouseRepository.findItem(id);
+            item.ifPresent(item1 ->{
+                activityRepositoryService.saveActivity(item1,name);
+            });
             return ResponseEntity.ok("Item sold!");
         }
         else{

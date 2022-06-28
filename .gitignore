@@ -2,7 +2,6 @@
 .idea/
 Warehouse/target
 Shop/target
-Shop.iml
-Warehouse.iml
+*.iml
 MultiModuleProject.iml
 warehouse-dto/target

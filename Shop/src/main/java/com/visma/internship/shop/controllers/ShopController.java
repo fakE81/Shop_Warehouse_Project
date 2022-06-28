@@ -21,7 +21,6 @@ public class ShopController {
 
     final WarehouseService warehouseService;
 
-    @Autowired
     public ShopController(WarehouseService warehouseService) {
         this.warehouseService = warehouseService;
     }

@@ -15,7 +15,6 @@ public class WarehouseDatabaseRepository implements WarehouseRepository {
 
     private final ItemRepository itemRepository;
 
-    @Autowired
     public WarehouseDatabaseRepository(ItemRepository itemRepository) {
         this.itemRepository = itemRepository;
     }
