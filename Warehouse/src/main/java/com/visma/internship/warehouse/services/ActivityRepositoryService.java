@@ -1,5 +1,6 @@
 package com.visma.internship.warehouse.services;
 
+import com.visma.internship.warehouse.entities.Item;
 import com.visma.internship.warehouse.entities.ShopUser;
 import com.visma.internship.warehouse.entities.UserActivity;
 import com.visma.internship.warehouse.repositories.ActivityRepository;
@@ -21,14 +22,13 @@ public class ActivityRepositoryService {
         this.userRepository = userRepository;
     }
 
-    public void saveActivity(long item_id,String name){
+    public void saveActivity(Item item, String name){
         List<ShopUser> shopUsers = userRepository.findAll();
         Optional<ShopUser> user = findUserByName(shopUsers,name);
-        if(user.isPresent()){
-            activityRepository.save(new UserActivity(user.get().getId(),item_id));
-        }else{
-            //Nieko, bet cia visada bus user.
-        }
+
+        user.ifPresent(shopUser -> {
+            activityRepository.save(new UserActivity(shopUser,item));
+        });
     }
 
     private Optional<ShopUser> findUserByName(List<ShopUser> users, String name){
