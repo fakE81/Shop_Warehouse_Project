@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ActivityRepositoryService {
@@ -29,6 +30,10 @@ public class ActivityRepositoryService {
         user.ifPresent(shopUser -> {
             activityRepository.save(new UserActivity(shopUser,item));
         });
+    }
+
+    public List<UserActivity> findAllActivitiesByUserId(long id){
+        return activityRepository.findAll().stream().filter(userActivity -> userActivity.getShopUser().getId() == id).collect(Collectors.toList());
     }
 
     private Optional<ShopUser> findUserByName(List<ShopUser> users, String name){
