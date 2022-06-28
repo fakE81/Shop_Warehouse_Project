@@ -1,5 +1,6 @@
 package com.visma.internship.warehouse.config;
 
+import com.visma.internship.warehouse.repositories.ItemRepository;
 import com.visma.internship.warehouse.repositories.WarehouseDatabaseRepository;
 import com.visma.internship.warehouse.repositories.WarehouseInMemoryRepository;
 import com.visma.internship.warehouse.repositories.WarehouseRepository;
@@ -15,19 +16,13 @@ public class WarehouseRepositoryConfig {
     @Value("${warehouse.db}")
     private boolean isDatabase;
 
-    @Autowired
-    private WarehouseDatabaseRepository warehouseDatabaseRepository;
-
-    @Autowired
-    private WarehouseInMemoryRepository warehouseInMemoryRepository;
-
     @Primary
     @Bean(name = "repository")
-    public WarehouseRepository getWarehouseRepository(){
+    public WarehouseRepository getWarehouseRepository(ItemRepository itemRepository){
         if(isDatabase){
-            return warehouseDatabaseRepository;
+            return new WarehouseDatabaseRepository(itemRepository);
         }else{
-            return warehouseInMemoryRepository;
+            return new WarehouseInMemoryRepository();
         }
     }
 }

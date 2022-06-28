@@ -11,14 +11,12 @@
     <h2>Items List:</h2>
     <table class="table table-striped">
         <tr>
-            <th>Id</th>
             <th>Name</th>
             <th>Description</th>
             <th>Price</th>
             <th>Quantity</th>
         </tr>
         <tr th:each="item : ${items}">
-            <td th:text="${item.id}"></td>
             <td th:text="${item.name}"></td>
             <td th:text="${item.description}"></td>
             <td th:text="${item.price}"></td>
