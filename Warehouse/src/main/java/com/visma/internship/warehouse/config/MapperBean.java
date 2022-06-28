@@ -1,4 +1,4 @@
-package com.visma.internship.warehouse.services;
+package com.visma.internship.warehouse.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
