@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class ActivityRepositoryService {
+    //TODO: Testus padaryti daugeliui klasiu.
     private ActivityRepository activityRepository;
 
     private UserRepository userRepository;
@@ -34,6 +35,10 @@ public class ActivityRepositoryService {
 
     public List<UserActivity> findAllActivitiesByUserId(long id){
         return activityRepository.findAll().stream().filter(userActivity -> userActivity.getShopUser().getId() == id).collect(Collectors.toList());
+    }
+
+    public List<UserActivity> findAllActivities(){
+        return activityRepository.findAll();
     }
 
     private Optional<ShopUser> findUserByName(List<ShopUser> users, String name){
