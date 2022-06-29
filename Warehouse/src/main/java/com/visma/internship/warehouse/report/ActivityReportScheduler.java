@@ -5,7 +5,6 @@ import com.visma.internship.warehouse.services.ActivityRepositoryService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -13,14 +12,14 @@ import java.util.List;
 
 @Service
 @EnableScheduling
-public class UserActivityReport {
+public class ActivityReportScheduler {
 
     @Value("${activities.filepath}")
     String filepath;
 
     ActivityRepositoryService activityRepositoryService;
 
-    public UserActivityReport(ActivityRepositoryService activityRepositoryService) {
+    public ActivityReportScheduler(ActivityRepositoryService activityRepositoryService) {
         this.activityRepositoryService = activityRepositoryService;
     }
 
