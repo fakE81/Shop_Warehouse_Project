@@ -1,11 +1,15 @@
 package com.visma.internship.warehouse.entities;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
-@Table(name="activity_table")
+@Table(name="UserActivity")
 public class UserActivity {
-    // TODO: Quantity prideti nebent.
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -13,8 +17,11 @@ public class UserActivity {
     @ManyToOne
     private ShopUser shopUser;
 
-    @OneToOne
+    @ManyToOne
     private Item item;
+
+    @CreationTimestamp
+    private LocalDateTime activityTime;
 
     public UserActivity() {
     }
@@ -52,5 +59,13 @@ public class UserActivity {
 
     public void setItem(Item item) {
         this.item = item;
+    }
+
+    public LocalDateTime getActivityTime() {
+        return activityTime;
+    }
+
+    public void setActivityTime(LocalDateTime activityTime) {
+        this.activityTime = activityTime;
     }
 }

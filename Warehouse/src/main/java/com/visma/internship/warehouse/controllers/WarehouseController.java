@@ -2,9 +2,11 @@ package com.visma.internship.warehouse.controllers;
 
 
 import com.visma.internship.ItemDTO;
+import com.visma.internship.warehouse.entities.UserActivity;
 import com.visma.internship.warehouse.report.ActivityReportService;
 import com.visma.internship.warehouse.entities.Item;
 import com.visma.internship.warehouse.services.WarehouseRepositoryService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +24,6 @@ public class WarehouseController {
 
     public WarehouseController(WarehouseRepositoryService warehouseRepositoryService, ActivityReportService activityReportService) {
         this.warehouseRepositoryService = warehouseRepositoryService;
-
         this.activityReportService = activityReportService;
     }
 
@@ -46,9 +47,14 @@ public class WarehouseController {
         return warehouseRepositoryService.sellItemById(id);
     }
 
-    @GetMapping("report/download")
-    public ResponseEntity<Resource> downloadReport(){
-        return activityReportService.downloadReport();
+    @GetMapping("report/download/{hour}")
+    public ResponseEntity<Resource> downloadReport(@PathVariable("hour") int hour){
+        return activityReportService.downloadReport(hour);
+    }
+
+    @GetMapping("user/activity/{id}")
+    public List<UserActivity> getUserActivity(@PathVariable("id") long id){
+        return warehouseRepositoryService.getUserActivityById(id);
     }
 
 }

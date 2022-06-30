@@ -1,11 +1,13 @@
 package com.visma.internship.warehouse.report;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -18,13 +20,14 @@ public class ActivityReportService {
     @Value("${activities.filepath}")
     String filepath;
 
-    public ResponseEntity<Resource> downloadReport()  {
+    public ResponseEntity<Resource> downloadReport(int hour)  {
         try{
-            File file = new File(filepath);
+            String filename = hour+".csv";
+            File file = new File(filepath+filename);
             InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
 
             return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=\"activities.csv\"")
+                    .header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=\"Activity_Report_"+filename+"\"")
                     .contentType(MediaType.parseMediaType("application/csv"))
                     .body(resource);
         }catch (FileNotFoundException e){

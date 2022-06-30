@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -23,28 +24,26 @@ public class ActivityReportScheduler {
         this.activityRepositoryService = activityRepositoryService;
     }
 
-    // Kas valanda.
+    // Kas valanda reportas.
     @Scheduled(fixedDelay = 60*60*1000)
     public void generateReport() {
-        System.out.println("Generating");
-        List<UserActivity> userActivityList = activityRepositoryService.findAllActivities();
+        List<UserActivity> userActivityList = activityRepositoryService.findLastHourActivities();
         try{
-            StringBuffer data = new StringBuffer("Id,User,Item,Price\n");
+            StringBuilder data = new StringBuilder("Id,User,Item,Price,Time\n");
             for(UserActivity userActivity : userActivityList){
                 data.append(userActivity.getId()).append(",");
                 data.append(userActivity.getShopUser().getName()).append(",");
                 data.append(userActivity.getItem().getName()).append(",");
-                data.append(userActivity.getItem().getPrice());
+                data.append(userActivity.getItem().getPrice()).append(",");
+                data.append(userActivity.getActivityTime());
                 data.append("\n");
             }
-
-            FileWriter fileWriter = new FileWriter(filepath);
+            String filename = filepath + LocalTime.now().getHour()+".csv";
+            FileWriter fileWriter = new FileWriter(filename);
             fileWriter.write(data.toString());
             fileWriter.flush();
         } catch (IOException e){
 
         }
-
-
     }
 }
