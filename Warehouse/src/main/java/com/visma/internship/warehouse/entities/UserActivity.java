@@ -1,33 +1,40 @@
 package com.visma.internship.warehouse.entities;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
-@Table(name="activity_table")
+@Table(name="UserActivity")
 public class UserActivity {
-    // TODO: Quantity prideti nebent.
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(name = "user_id")
-    private long user_id;
+    @ManyToOne
+    private ShopUser shopUser;
 
-    @Column(name = "item_id")
-    private long item_id;
+    @ManyToOne
+    private Item item;
+
+    @CreationTimestamp
+    private LocalDateTime activityTime;
 
     public UserActivity() {
     }
 
-    public UserActivity(long user_id, long item_id) {
-        this.user_id = user_id;
-        this.item_id = item_id;
+    public UserActivity(ShopUser shopUser, Item item) {
+        this.shopUser = shopUser;
+        this.item = item;
     }
 
-    public UserActivity(long id, long user_id, long item_id) {
+    public UserActivity(long id, ShopUser shopUser, Item item) {
         this.id = id;
-        this.user_id = user_id;
-        this.item_id = item_id;
+        this.shopUser = shopUser;
+        this.item = item;
     }
 
     public long getId() {
@@ -38,19 +45,27 @@ public class UserActivity {
         this.id = id;
     }
 
-    public long getUser_id() {
-        return user_id;
+    public ShopUser getShopUser() {
+        return shopUser;
     }
 
-    public void setUser_id(long user_id) {
-        this.user_id = user_id;
+    public void setShopUser(ShopUser shopUser) {
+        this.shopUser = shopUser;
     }
 
-    public long getItem_id() {
-        return item_id;
+    public Item getItem() {
+        return item;
     }
 
-    public void setItem_id(long item_id) {
-        this.item_id = item_id;
+    public void setItem(Item item) {
+        this.item = item;
+    }
+
+    public LocalDateTime getActivityTime() {
+        return activityTime;
+    }
+
+    public void setActivityTime(LocalDateTime activityTime) {
+        this.activityTime = activityTime;
     }
 }

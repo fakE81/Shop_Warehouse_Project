@@ -4,6 +4,7 @@ package com.visma.internship.warehouse.services;
 import com.visma.internship.ItemDTO;
 import com.visma.internship.warehouse.Authentification;
 import com.visma.internship.warehouse.entities.Item;
+import com.visma.internship.warehouse.entities.UserActivity;
 import com.visma.internship.warehouse.repositories.ActivityRepository;
 import com.visma.internship.warehouse.repositories.WarehouseRepository;
 import org.modelmapper.ModelMapper;
@@ -15,6 +16,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +25,9 @@ import java.util.Optional;
 public class WarehouseRepositoryService {
     // Atsakingas uz konvertavima Item -> ItemDto
     private ModelMapper modelMapper;
+
+    @PersistenceContext
+    private EntityManager em;
 
     @Qualifier("repository")
     private final WarehouseRepository warehouseRepository;
@@ -51,7 +57,15 @@ public class WarehouseRepositoryService {
         String name = authentication.getName();
         boolean status = warehouseRepository.removeOneQntFromItemById(id);
         if(status){
-            activityRepositoryService.saveActivity(id,name);
+            // Ir taip ir taip veikia, tik kad cia gaunam objekta kuris turi tik id fielda.
+            // Siuo atveju tai geriau taip naudoti:
+            Item item = em.getReference(Item.class,id);
+            activityRepositoryService.saveActivity(item,name);
+
+            //Optional<Item> item = warehouseRepository.findItem(id);
+//            item.ifPresent(item1 ->{
+//                activityRepositoryService.saveActivity(item1,name);
+//            });
             return ResponseEntity.ok("Item sold!");
         }
         else{
@@ -74,4 +88,7 @@ public class WarehouseRepositoryService {
         return itemsDto;
     }
 
+    public List<UserActivity> getUserActivityById(long id){
+        return activityRepositoryService.findAllActivitiesByUserId(id);
+    }
 }
