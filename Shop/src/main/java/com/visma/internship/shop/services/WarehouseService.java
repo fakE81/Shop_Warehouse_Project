@@ -4,13 +4,17 @@ import com.visma.internship.ItemDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.core.io.Resource;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -67,9 +71,30 @@ public class WarehouseService {
         }
     }
 
+    public ResponseEntity<Resource> downloadActivity(){
+
+            String url = warehouseUrl + "/api/report/download/" + LocalTime.now().getHour();
+            System.out.println(url);
+            HttpHeaders header = new HttpHeaders();
+            header.setBasicAuth(username, password);
+            header.setAccept(Arrays.asList(MediaType.APPLICATION_OCTET_STREAM));
+            HttpEntity<Resource> entity = new HttpEntity<>(header);
+
+            ResponseEntity<Resource> response = restTemplate.exchange(
+                    url,
+                    HttpMethod.GET,
+                    entity,
+                    Resource.class);
+
+            return response;
+            //Files.write(Paths.get("C:\\Users\\laurynas.seikis\\Downloads\\11.csv"), response.getBody());
+
+    }
+
     public HttpEntity setupHttpEntity(){
         HttpHeaders header = new HttpHeaders();
         header.setBasicAuth(username,password);
         return new HttpEntity(header);
     }
+
 }
