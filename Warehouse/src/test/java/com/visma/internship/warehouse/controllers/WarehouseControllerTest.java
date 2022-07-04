@@ -3,6 +3,8 @@ package com.visma.internship.warehouse.controllers;
 import com.google.gson.Gson;
 import com.visma.internship.ItemDTO;
 import com.visma.internship.warehouse.entities.Item;
+import com.visma.internship.warehouse.entities.ShopUser;
+import com.visma.internship.warehouse.entities.UserActivity;
 import com.visma.internship.warehouse.report.ActivityReportService;
 import com.visma.internship.warehouse.services.WarehouseRepositoryService;
 import org.hamcrest.Matchers;
@@ -18,6 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.ArrayList;
+import java.util.List;
 
 
 @WebMvcTest(WarehouseController.class)
@@ -50,7 +53,6 @@ class WarehouseControllerTest {
 
     @Test
     public void addItem() throws Exception {
-
         Item item = new Item(500,"Test","Test",20,60);
         Gson gson = new Gson();
         String json = gson.toJson(item);
@@ -64,7 +66,6 @@ class WarehouseControllerTest {
 
     @Test
     public void removeItem() throws Exception {
-
         Mockito.when(warehouseRepositoryService.sellItemById(500)).thenReturn(ResponseEntity.ok("ok"));
         Mockito.when(warehouseRepositoryService.sellItemById(-1)).thenReturn(ResponseEntity.notFound().build());
 
@@ -72,5 +73,22 @@ class WarehouseControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk());
         mockMvc.perform(MockMvcRequestBuilders.put("/api/items/-1/"))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
+    }
+
+    @Test
+    public void getUserActivity() throws Exception {
+        Item item = new Item(3,".",".",15,20);
+        ShopUser shopUser1 = new ShopUser(999L,"Username","Password","Role");
+
+        List<UserActivity> userActivityList = new ArrayList<>();
+        userActivityList.add(new UserActivity(shopUser1,item));
+        userActivityList.add(new UserActivity(shopUser1,item));
+
+        Mockito.when(warehouseRepositoryService.getUserActivityById(999L)).thenReturn(userActivityList);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/user/activity/999/"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.size()",Matchers.is(2)));
     }
 }

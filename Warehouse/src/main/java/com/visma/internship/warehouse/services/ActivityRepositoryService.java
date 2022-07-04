@@ -33,7 +33,6 @@ public class ActivityRepositoryService {
         });
     }
 
-    //TODO: Isbandyti ar veikia.
     public List<UserActivity> findAllActivitiesByUserId(long id){
         return activityRepository.findByShopUser(id);
     }

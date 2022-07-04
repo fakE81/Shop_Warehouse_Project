@@ -21,6 +21,11 @@ public class ShopUser {
     public ShopUser() {
     }
 
+    public ShopUser(String name, String password, String role) {
+        this.name = name;
+        this.password = password;
+        this.role = role;
+    }
     public ShopUser(long id, String name, String password, String role) {
         this.id = id;
         this.name = name;
