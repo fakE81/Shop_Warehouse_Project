@@ -2,10 +2,8 @@ package com.visma.internship.warehouse.services;
 
 
 import com.visma.internship.ItemDTO;
-import com.visma.internship.warehouse.Authentification;
 import com.visma.internship.warehouse.entities.Item;
 import com.visma.internship.warehouse.entities.UserActivity;
-import com.visma.internship.warehouse.repositories.ActivityRepository;
 import com.visma.internship.warehouse.repositories.WarehouseRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;

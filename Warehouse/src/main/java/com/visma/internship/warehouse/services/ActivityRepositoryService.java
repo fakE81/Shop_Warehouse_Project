@@ -5,12 +5,10 @@ import com.visma.internship.warehouse.entities.ShopUser;
 import com.visma.internship.warehouse.entities.UserActivity;
 import com.visma.internship.warehouse.repositories.ActivityRepository;
 import com.visma.internship.warehouse.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ActivityRepositoryService {
