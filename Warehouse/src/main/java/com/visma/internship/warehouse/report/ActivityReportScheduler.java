@@ -7,7 +7,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -16,21 +17,22 @@ import java.util.List;
 public class ActivityReportScheduler {
 
     @Value("${activities.filepath}")
-    String filepath;
+    private String filepath;
 
-    ActivityRepositoryService activityRepositoryService;
+    private ActivityRepositoryService activityRepositoryService;
 
     public ActivityReportScheduler(ActivityRepositoryService activityRepositoryService) {
         this.activityRepositoryService = activityRepositoryService;
     }
 
     // Kas valanda reportas.
-    @Scheduled(fixedDelay = 60*60*1000)
+    @Scheduled(fixedDelay = 60 * 60 * 1000)
     public void generateReport() {
         List<UserActivity> userActivityList = activityRepositoryService.findLastHourActivities();
-        try{
+        try {
             StringBuilder data = new StringBuilder("Id,User,Item,Price,Time\n");
-            for(UserActivity userActivity : userActivityList){
+            for (UserActivity userActivity : userActivityList) {
+                //TODO: Private metodas:
                 data.append(userActivity.getId()).append(",");
                 data.append(userActivity.getShopUser().getName()).append(",");
                 data.append(userActivity.getItem().getName()).append(",");
@@ -38,12 +40,13 @@ public class ActivityReportScheduler {
                 data.append(userActivity.getActivityTime());
                 data.append("\n");
             }
-            String filename = filepath + LocalTime.now().getHour()+".csv";
+            String filename = filepath + LocalTime.now().getHour() + ".csv";
+            // TODO: Metodas irgi:
             FileWriter fileWriter = new FileWriter(filename);
             fileWriter.write(data.toString());
             fileWriter.flush();
-        } catch (IOException e){
-
+        } catch (IOException e) {
+            // TODO: Log error.
         }
     }
 }

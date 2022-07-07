@@ -15,11 +15,11 @@ public class UserRepositoryService {
         this.userRepository = userRepository;
     }
 
-    public List<ShopUser> getUsers(){
+    public List<ShopUser> getUsers() {
         return userRepository.findAll();
     }
 
-    public void saveUser(ShopUser shopUser){
+    public void saveUser(ShopUser shopUser) {
         userRepository.save(shopUser);
     }
 }

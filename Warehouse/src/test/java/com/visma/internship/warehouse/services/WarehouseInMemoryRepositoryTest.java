@@ -12,14 +12,14 @@ class WarehouseInMemoryRepositoryTest {
     @Test
     void addItemTest() {
         int itemsCount = warehouseInMemoryRepository.findAll().size();
-        Item item = new Item(3,".",".",15,20);
+        Item item = new Item(3, ".", ".", 15, 20);
         warehouseInMemoryRepository.createItem(item);
-        Assert.assertEquals(itemsCount+1, warehouseInMemoryRepository.findAll().size());
+        Assert.assertEquals(itemsCount + 1, warehouseInMemoryRepository.findAll().size());
     }
 
     @Test
     void removeItemById() {
-        Item item = new Item(4L,".",".",15,20);
+        Item item = new Item(4L, ".", ".", 15, 20);
         warehouseInMemoryRepository.createItem(item);
         boolean removed = warehouseInMemoryRepository.removeOneQntFromItemById(4L);
         Assert.assertEquals(19, warehouseInMemoryRepository.findItem(4L).get().getQuantity());
@@ -31,7 +31,7 @@ class WarehouseInMemoryRepositoryTest {
         removed = warehouseInMemoryRepository.removeOneQntFromItemById(-5);
         Assert.assertFalse(removed);
 
-        removed = warehouseInMemoryRepository.removeOneQntFromItemById(Integer.MAX_VALUE+1);
+        removed = warehouseInMemoryRepository.removeOneQntFromItemById(Integer.MAX_VALUE + 1);
         Assert.assertFalse(removed);
     }
 }

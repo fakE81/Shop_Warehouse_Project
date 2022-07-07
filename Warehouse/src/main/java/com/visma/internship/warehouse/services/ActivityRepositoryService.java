@@ -5,16 +5,14 @@ import com.visma.internship.warehouse.entities.ShopUser;
 import com.visma.internship.warehouse.entities.UserActivity;
 import com.visma.internship.warehouse.repositories.ActivityRepository;
 import com.visma.internship.warehouse.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ActivityRepositoryService {
-    //TODO: Testus padaryti daugeliui klasiu.
+
     private ActivityRepository activityRepository;
 
     private UserRepository userRepository;
@@ -24,29 +22,28 @@ public class ActivityRepositoryService {
         this.userRepository = userRepository;
     }
 
-    public void saveActivity(Item item, String name){
-        List<ShopUser> shopUsers = userRepository.findByName(name);
-        Optional<ShopUser> user = findFirstShopUserByName(shopUsers);
+    public void saveActivity(Item item, String name) {
+        Optional<ShopUser> user = findFirstShopUserByName(name);
 
         user.ifPresent(shopUser -> {
-            activityRepository.save(new UserActivity(shopUser,item));
+            activityRepository.save(new UserActivity(shopUser, item));
         });
     }
 
-    //TODO: Isbandyti ar veikia.
-    public List<UserActivity> findAllActivitiesByUserId(long id){
+    public List<UserActivity> findAllActivitiesByUserId(long id) {
         return activityRepository.findByShopUser(id);
     }
 
-    public List<UserActivity> findAllActivities(){
+    public List<UserActivity> findAllActivities() {
         return activityRepository.findAll();
     }
 
-    public List<UserActivity> findLastHourActivities(){
+    public List<UserActivity> findLastHourActivities() {
         return activityRepository.findLastHourActivities();
     }
 
-    private Optional<ShopUser> findFirstShopUserByName(List<ShopUser> users){
-        return users.stream().findFirst();
+    private Optional<ShopUser> findFirstShopUserByName(String name) {
+        List<ShopUser> shopUsers = userRepository.findByName(name);
+        return shopUsers.stream().findFirst();
     }
 }
