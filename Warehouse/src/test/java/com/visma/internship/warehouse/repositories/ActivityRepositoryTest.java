@@ -33,11 +33,12 @@ class ActivityRepositoryTest {
 
         userRepository.save(shopUser);
         itemRepository.save(item);
+        int activitiesExpected = activityRepository.findLastHourActivities().size()+3;
         activityRepository.save(new UserActivity(shopUser,item));
         activityRepository.save(new UserActivity(shopUser,item));
         activityRepository.save(new UserActivity(shopUser,item));
 
-        Assert.assertEquals(3,activityRepository.findLastHourActivities().size());
+        Assert.assertEquals(activitiesExpected,activityRepository.findLastHourActivities().size());
 
         long id = activityRepository.findLastHourActivities().get(0).getId();
         Optional<UserActivity> userActivity = activityRepository.findById(id);

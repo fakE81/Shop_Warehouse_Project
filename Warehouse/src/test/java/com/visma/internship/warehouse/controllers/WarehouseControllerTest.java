@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,8 +38,8 @@ class WarehouseControllerTest {
 
     @Test
     public void showListOfItems() throws Exception {
-        ItemDTO item1 = new ItemDTO(500,"Test","Test",20,60);
-        ItemDTO item2 = new ItemDTO(600,"Test","Test",20,60);
+        ItemDTO item1 = new ItemDTO(500, "Test", "Test", 20, 60);
+        ItemDTO item2 = new ItemDTO(600, "Test", "Test", 20, 60);
         ArrayList<ItemDTO> items = new ArrayList<>();
         items.add(item1);
         items.add(item2);
@@ -53,7 +54,7 @@ class WarehouseControllerTest {
 
     @Test
     public void addItem() throws Exception {
-        Item item = new Item(500,"Test","Test",20,60);
+        Item item = new Item(500, "Test", "Test", 20, 60);
         Gson gson = new Gson();
         String json = gson.toJson(item);
 
@@ -77,18 +78,18 @@ class WarehouseControllerTest {
 
     @Test
     public void getUserActivity() throws Exception {
-        Item item = new Item(3,".",".",15,20);
-        ShopUser shopUser1 = new ShopUser(999L,"Username","Password","Role");
+        Item item = new Item(3, ".", ".", 15, 20);
+        ShopUser shopUser1 = new ShopUser(999L, "Username", "Password", "Role");
 
         List<UserActivity> userActivityList = new ArrayList<>();
-        userActivityList.add(new UserActivity(shopUser1,item));
-        userActivityList.add(new UserActivity(shopUser1,item));
+        userActivityList.add(new UserActivity(shopUser1, item));
+        userActivityList.add(new UserActivity(shopUser1, item));
 
         Mockito.when(warehouseRepositoryService.getUserActivityById(999L)).thenReturn(userActivityList);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/user/activity/999/"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.size()",Matchers.is(2)));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.size()", Matchers.is(2)));
     }
 }

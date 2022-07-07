@@ -9,6 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,8 +26,8 @@ class UserRepositoryServiceTest {
     @Test
     void findAllUsers() {
         List<ShopUser> shopUserList = new ArrayList<>();
-        shopUserList.add(new ShopUser(999L,"Username","Password","Role"));
-        shopUserList.add(new ShopUser(1000L,"Username1","Password1","Role1"));
+        shopUserList.add(new ShopUser(999L, "Username", "Password", "Role"));
+        shopUserList.add(new ShopUser(1000L, "Username1", "Password1", "Role1"));
 
         Mockito.when(userRepository.findAll()).thenReturn(shopUserList);
 

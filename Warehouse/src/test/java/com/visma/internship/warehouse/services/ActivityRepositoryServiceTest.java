@@ -32,33 +32,33 @@ class ActivityRepositoryServiceTest {
 
     @Test
     void findAllActivitiesByUserId() {
-        Item item = new Item(3,".",".",15,20);
-        ShopUser shopUser1 = new ShopUser(999L,"Username","Password","Role");
-        ShopUser shopUser2 = new ShopUser(1000L,"Username","Password","Role");
+        Item item = new Item(3, ".", ".", 15, 20);
+        ShopUser shopUser1 = new ShopUser(999L, "Username", "Password", "Role");
+        ShopUser shopUser2 = new ShopUser(1000L, "Username", "Password", "Role");
 
         List<UserActivity> userActivityList1 = new ArrayList<>();
         List<UserActivity> userActivityList2 = new ArrayList<>();
-        userActivityList1.add(new UserActivity(shopUser1,item));
-        userActivityList2.add(new UserActivity(shopUser2,item));
-        userActivityList2.add(new UserActivity(shopUser2,item));
+        userActivityList1.add(new UserActivity(shopUser1, item));
+        userActivityList2.add(new UserActivity(shopUser2, item));
+        userActivityList2.add(new UserActivity(shopUser2, item));
 
         Mockito.when(activityRepository.findByShopUser(999L)).thenReturn(userActivityList1);
         Mockito.when(activityRepository.findByShopUser(1000L)).thenReturn(userActivityList2);
 
-        Assert.assertEquals(1,activityRepositoryService.findAllActivitiesByUserId(999L).size());
-        Assert.assertEquals(2,activityRepositoryService.findAllActivitiesByUserId(1000L).size());
+        Assert.assertEquals(1, activityRepositoryService.findAllActivitiesByUserId(999L).size());
+        Assert.assertEquals(2, activityRepositoryService.findAllActivitiesByUserId(1000L).size());
     }
 
     @Test
     void findAllActivities() {
-        Item item = new Item(3,".",".",15,20);
-        ShopUser shopUser1 = new ShopUser(999L,"Username","Password","Role");
-        ShopUser shopUser2 = new ShopUser(1000L,"Username","Password","Role");
+        Item item = new Item(3, ".", ".", 15, 20);
+        ShopUser shopUser1 = new ShopUser(999L, "Username", "Password", "Role");
+        ShopUser shopUser2 = new ShopUser(1000L, "Username", "Password", "Role");
 
         List<UserActivity> userActivityList = new ArrayList<>();
-        userActivityList.add(new UserActivity(shopUser1,item));
-        userActivityList.add(new UserActivity(shopUser1,item));
-        userActivityList.add(new UserActivity(shopUser2,item));
+        userActivityList.add(new UserActivity(shopUser1, item));
+        userActivityList.add(new UserActivity(shopUser1, item));
+        userActivityList.add(new UserActivity(shopUser2, item));
 
         Mockito.when(activityRepository.findAll()).thenReturn(userActivityList);
 
@@ -67,13 +67,13 @@ class ActivityRepositoryServiceTest {
 
     @Test
     void findLastHourActivities() {
-        Item item = new Item(3,".",".",15,20);
-        ShopUser shopUser1 = new ShopUser(999L,"Username","Password","Role");
+        Item item = new Item(3, ".", ".", 15, 20);
+        ShopUser shopUser1 = new ShopUser(999L, "Username", "Password", "Role");
         List<UserActivity> userActivityList = new ArrayList<>();
-        userActivityList.add(new UserActivity(shopUser1,item));
+        userActivityList.add(new UserActivity(shopUser1, item));
 
         Mockito.when(activityRepository.findLastHourActivities()).thenReturn(userActivityList);
 
-        Assert.assertEquals(1,activityRepositoryService.findLastHourActivities().size());
+        Assert.assertEquals(1, activityRepositoryService.findLastHourActivities().size());
     }
 }

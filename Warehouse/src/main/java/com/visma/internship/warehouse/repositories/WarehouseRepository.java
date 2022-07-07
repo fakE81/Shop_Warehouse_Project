@@ -9,8 +9,11 @@ import java.util.Optional;
 @Repository
 public interface WarehouseRepository {
 
-    public List<Item> findAll();
-    public Optional<Item> findItem(long id);
-    public void createItem(Item item);
-    public boolean removeOneQntFromItemById(long id);
+    List<Item> findAll();
+
+    Optional<Item> findItem(long id);
+
+    void createItem(Item item);
+
+    boolean removeOneQntFromItemById(long id);
 }

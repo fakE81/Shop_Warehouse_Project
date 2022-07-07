@@ -16,9 +16,9 @@ class UserRepositoryTest {
 
     @Test
     void findByName() {
-        ShopUser shopUser = new ShopUser("Username","Password","Role");
+        ShopUser shopUser = new ShopUser("Username", "Password", "Role");
 
         userRepository.save(shopUser);
-        Assert.assertEquals("Username",userRepository.findByName("Username").get(0).getName());
+        Assert.assertEquals("Username", userRepository.findByName("Username").get(0).getName());
     }
 }

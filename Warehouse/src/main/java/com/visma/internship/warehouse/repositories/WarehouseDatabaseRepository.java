@@ -1,7 +1,6 @@
 package com.visma.internship.warehouse.repositories;
 
 import com.visma.internship.warehouse.entities.Item;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
@@ -37,12 +36,12 @@ public class WarehouseDatabaseRepository implements WarehouseRepository {
     @Override
     public boolean removeOneQntFromItemById(long id) {
         Optional<Item> item = itemRepository.findById(id);
-        if(item.isPresent()){
+        if (item.isPresent()) {
             int qnt = item.get().getQuantity();
-            if(qnt<=0){
+            if (qnt <= 0) {
                 return false;
             }
-            item.get().setQuantity(qnt-1);
+            item.get().setQuantity(qnt - 1);
             itemRepository.save(item.get());
             return true;
         }

@@ -14,7 +14,7 @@ import java.io.FileNotFoundException;
 
 @Service
 public class ActivityReportService {
-
+    //TODO: Sita klase nereikalinga, Enitity i controller, kita dalis i report.
     @Value("${activities.filepath}")
     String filepath;
 
