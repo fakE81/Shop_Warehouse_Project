@@ -28,10 +28,8 @@
             <td th:text="${item.description}"></td>
             <td th:text="${item.price}"></td>
             <td th:text="${item.quantity}"></td>
-            <td th:if="${item.quantity > 0}"><a th:href="@{'/shop/item/sell/'+${item.id}}"
-                                                class="btn btn-primary">Sell</a></td>
-            <td th:if="${item.quantity == 0}"><a th:href="@{'/shop/item/sell/'+${item.id}}"
-                                                 class="btn btn-primary disabled" aria-disabled="true">Sell</a></td>
+            <td><a th:class="${item.quantity > 0}? 'btn btn-primary' : 'btn btn-primary disabled'"
+                   th:href="@{'/shop/item/sell/'+${item.id}}">Sell</a></td>
         </tr>
     </table>
 </div>

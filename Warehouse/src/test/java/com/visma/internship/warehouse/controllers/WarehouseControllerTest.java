@@ -7,6 +7,7 @@ import com.visma.internship.warehouse.entities.ShopUser;
 import com.visma.internship.warehouse.entities.UserActivity;
 import com.visma.internship.warehouse.exceptions.ItemNotFoundException;
 import com.visma.internship.warehouse.report.ActivityReportScheduler;
+import com.visma.internship.warehouse.report.ActivityReportService;
 import com.visma.internship.warehouse.services.WarehouseRepositoryService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -35,7 +36,7 @@ class WarehouseControllerTest {
     WarehouseRepositoryService warehouseRepositoryService;
 
     @MockBean
-    ActivityReportScheduler activityReportScheduler;
+    ActivityReportService activityReportService;
 
     @Test
     public void showListOfItems() throws Exception {

@@ -6,6 +6,7 @@ import com.visma.internship.warehouse.entities.Item;
 import com.visma.internship.warehouse.entities.UserActivity;
 import com.visma.internship.warehouse.exceptions.ItemNotFoundException;
 import com.visma.internship.warehouse.report.ActivityReportScheduler;
+import com.visma.internship.warehouse.report.ActivityReportService;
 import com.visma.internship.warehouse.services.WarehouseRepositoryService;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -26,11 +27,11 @@ public class WarehouseController {
 
     private final WarehouseRepositoryService warehouseRepositoryService;
 
-    private final ActivityReportScheduler activityReportScheduler;
+    private final ActivityReportService activityReportService;
 
-    public WarehouseController(WarehouseRepositoryService warehouseRepositoryService, ActivityReportScheduler activityReportScheduler) {
+    public WarehouseController(WarehouseRepositoryService warehouseRepositoryService, ActivityReportService activityReportService) {
         this.warehouseRepositoryService = warehouseRepositoryService;
-        this.activityReportScheduler = activityReportScheduler;
+        this.activityReportService = activityReportService;
     }
 
     @GetMapping("/items")
@@ -50,39 +51,39 @@ public class WarehouseController {
 
     @PutMapping("/items/{id}")
     public ResponseEntity<String> sellItem(@PathVariable("id") int id) {
-        try{
+        try {
             warehouseRepositoryService.sellItemById(id);
             return ResponseEntity.ok("Item sold!");
-        }catch (ItemNotFoundException e){
+        } catch (ItemNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
     }
 
     @GetMapping("report/download/{hour}")
     public ResponseEntity<Resource> downloadReport(@PathVariable("hour") int hour) {
-        try{
-            InputStreamResource resource = activityReportScheduler.createInputStreamResourceForReport(hour);
-            String filename = activityReportScheduler.generateFilename(hour);
+        try {
+            InputStreamResource resource = activityReportService.createInputStreamResourceForReport(hour);
+            String filename = activityReportService.generateFilename(hour);
             return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=\"Activity_Report_"+filename+"\"")
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"Activity_Report_" + filename + "\"")
                     .contentType(MediaType.parseMediaType("application/csv"))
                     .body(resource);
-        }catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
     }
 
     @GetMapping("report/activity/user/download")
-    public ResponseEntity<Resource> downloadUserReport(){
-        try{
+    public ResponseEntity<Resource> downloadUserReport() {
+        try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String username = authentication.getName();
-            InputStreamResource resource = activityReportScheduler.createDownloadUserActivityAction(username);
+            InputStreamResource resource = activityReportService.createDownloadUserActivityAction(username);
             return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=\"User_Activity_Report_"+username+".csv\"")
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"User_Activity_Report_" + username + ".csv\"")
                     .contentType(MediaType.parseMediaType("application/csv"))
                     .body(resource);
-        }catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
     }

@@ -44,9 +44,9 @@ public class ShopController {
         return warehouseService.downloadActivity();
     }
 
-    @RequestMapping(value = "/activity/user/download",method = RequestMethod.GET)
+    @RequestMapping(value = "/activity/user/download", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<Resource> downloadUserActivity(){
+    public ResponseEntity<Resource> downloadUserActivity() {
         return warehouseService.downloadUserActivity();
     }
 }
