@@ -40,26 +40,28 @@ public class WarehouseService {
     }
 
     public ItemDTO getItem(int id) {
-        String url = warehouseUrl + "/api/item/" + id;
+        String url = warehouseUrl + "/api/item/{id}";
 
         ResponseEntity<ItemDTO> response = restTemplate.exchange(
                 url,
                 HttpMethod.GET,
                 setupHttpEntity(),
-                ItemDTO.class);
+                ItemDTO.class,
+                id);
 
         return response.getBody();
     }
 
     public ResponseEntity<String> sellItem(int id) {
-        String url = warehouseUrl + "/api/items/" + id;
+        String url = warehouseUrl + "/api/items/{id}";
 
         try {
             ResponseEntity<String> response = restTemplate.exchange(
                     url,
                     HttpMethod.PUT,
                     setupHttpEntity(),
-                    String.class);
+                    String.class,
+                    id);
 
             return response;
 
@@ -69,7 +71,24 @@ public class WarehouseService {
     }
 
     public ResponseEntity<Resource> downloadActivity() {
-        String url = warehouseUrl + "/api/report/download/" + LocalTime.now().getHour();
+        String url = warehouseUrl + "/api/report/download/{hour}";
+        HttpHeaders header = new HttpHeaders();
+        header.setBasicAuth(username, password);
+        header.setAccept(Arrays.asList(MediaType.APPLICATION_OCTET_STREAM));
+        HttpEntity<Resource> entity = new HttpEntity<>(header);
+
+        ResponseEntity<Resource> response = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                entity,
+                Resource.class,
+                LocalTime.now().getHour());
+
+        return response;
+    }
+
+    public ResponseEntity<Resource> downloadUserActivity(){
+        String url = warehouseUrl + "/api/report/activity/user/download";
         HttpHeaders header = new HttpHeaders();
         header.setBasicAuth(username, password);
         header.setAccept(Arrays.asList(MediaType.APPLICATION_OCTET_STREAM));
@@ -83,6 +102,7 @@ public class WarehouseService {
 
         return response;
     }
+
 
     public HttpEntity setupHttpEntity() {
         HttpHeaders header = new HttpHeaders();

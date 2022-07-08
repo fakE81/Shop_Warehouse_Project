@@ -41,8 +41,7 @@ public class WarehouseDatabaseRepository implements WarehouseRepository {
             if (qnt <= 0) {
                 return false;
             }
-            item.get().setQuantity(qnt - 1);
-            itemRepository.save(item.get());
+            itemRepository.removeOneQnt(id);
             return true;
         }
         return false;

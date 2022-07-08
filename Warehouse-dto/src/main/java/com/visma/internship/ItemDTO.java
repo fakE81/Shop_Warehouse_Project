@@ -2,7 +2,7 @@ package com.visma.internship;
 
 public class ItemDTO {
 
-    private int id;
+    private long id;
     private String name;
     private String description;
     private double price;
@@ -12,7 +12,7 @@ public class ItemDTO {
 
     }
 
-    public ItemDTO(int id, String name, String description, double price, int quantity) {
+    public ItemDTO(long id, String name, String description, double price, int quantity) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -52,11 +52,11 @@ public class ItemDTO {
         this.quantity = quantity;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 }

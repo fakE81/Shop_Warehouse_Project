@@ -5,11 +5,11 @@ import com.sun.istack.NotNull;
 import com.visma.internship.ItemDTO;
 import com.visma.internship.warehouse.entities.Item;
 import com.visma.internship.warehouse.entities.UserActivity;
+import com.visma.internship.warehouse.exceptions.ItemNotFoundException;
 import com.visma.internship.warehouse.repositories.WarehouseRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -51,24 +51,15 @@ public class WarehouseRepositoryService {
         warehouseRepository.createItem(item);
     }
 
-    //TODO: custom Exception item not found, void galetu buti.
-    public ResponseEntity<String> sellItemById(long id) {
+    public void sellItemById(long id) throws ItemNotFoundException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String name = authentication.getName();
         boolean status = warehouseRepository.removeOneQntFromItemById(id);
         if (status) {
-            // Ir taip ir taip veikia, tik kad cia gaunam objekta kuris turi tik id fielda.
-            // Siuo atveju tai geriau taip naudoti:
             Item item = em.getReference(Item.class, id);
             activityRepositoryService.saveActivity(item, name);
-
-            //Optional<Item> item = warehouseRepository.findItem(id);
-//            item.ifPresent(item1 ->{
-//                activityRepositoryService.saveActivity(item1,name);
-//            });
-            return ResponseEntity.ok("Item sold!");
         } else {
-            return ResponseEntity.notFound().build();
+            throw new ItemNotFoundException("Item not found");
         }
     }
 
