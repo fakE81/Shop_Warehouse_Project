@@ -1,7 +1,6 @@
 package com.visma.internship.shop.services;
 
 import com.visma.internship.ItemDTO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.ParameterizedTypeReference;
@@ -10,8 +9,6 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import javax.print.attribute.standard.Media;
-import java.net.URI;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,20 +17,18 @@ import java.util.List;
 @Service
 public class WarehouseService {
 
-    private RestTemplateBuilder restTemplateBuilder;
+    private final RestTemplateBuilder restTemplateBuilder;
 
     private RestTemplate restTemplate;
-
-    private final String warehouseBaseUrl = "http://localhost:8081/warehouse";
 
     @Value("${login.username}")
     private String username;
     @Value("${login.password}")
     private String password;
 
-    public WarehouseService(RestTemplateBuilder restTemplateBuilder) {
+    public WarehouseService(RestTemplateBuilder restTemplateBuilder, @Value("${warehouse.url}") String warehouseUrl) {
         this.restTemplateBuilder = restTemplateBuilder;
-        restTemplate = restTemplateBuilder.rootUri(warehouseBaseUrl).build();
+        restTemplate = restTemplateBuilder.rootUri(warehouseUrl).build();
     }
 
     public List<ItemDTO> getItems() {
@@ -101,17 +96,18 @@ public class WarehouseService {
         return response;
     }
 
-
-    public HttpEntity setupHttpEntity() {
+    private HttpEntity setupHttpEntity() {
         HttpHeaders header = new HttpHeaders();
         header.setBasicAuth(username, password);
         return new HttpEntity(header);
     }
 
-    public HttpEntity setupHttpEntity(MediaType... accept) {
+    private HttpEntity setupHttpEntity(MediaType... accept) {
         HttpHeaders header = new HttpHeaders();
         header.setBasicAuth(username, password);
-        header.setAccept(Arrays.asList(accept));
+        if (accept != null) {
+            header.setAccept(Arrays.asList(accept));
+        }
         return new HttpEntity(header);
     }
 

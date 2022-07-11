@@ -27,7 +27,7 @@ public class ActivityReportService {
 
     private UserRepositoryService userRepositoryService;
 
-    Logger logger = LoggerFactory.getLogger(ActivityReportScheduler.class);
+    private static final Logger logger = LoggerFactory.getLogger(ActivityReportScheduler.class);
 
     public ActivityReportService(ActivityRepositoryService activityRepositoryService, UserRepositoryService userRepositoryService) {
         this.activityRepositoryService = activityRepositoryService;
@@ -41,7 +41,7 @@ public class ActivityReportService {
             for (UserActivity userActivity : userActivityList) {
                 appendDataString(data, userActivity);
             }
-            String filename = filepath + LocalTime.now().getHour() + ".csv";
+            String filename = filepath + generateFilename(LocalTime.now().getHour());
             writeDataToFile(filename, data);
         } catch (IOException e) {
             logger.error(e.getMessage());
