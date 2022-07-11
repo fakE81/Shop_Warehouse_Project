@@ -1,35 +1,101 @@
 package com.visma.internship.warehouse.report;
 
+import com.visma.internship.warehouse.entities.ShopUser;
+import com.visma.internship.warehouse.entities.UserActivity;
+import com.visma.internship.warehouse.services.ActivityRepositoryService;
+import com.visma.internship.warehouse.services.UserRepositoryService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.*;
+import java.time.LocalTime;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ActivityReportService {
-    //TODO: Sita klase nereikalinga, Enitity i controller, kita dalis i report.
+
     @Value("${activities.filepath}")
-    String filepath;
+    private String filepath;
+    @Value("${useractivities.filepath}")
+    private String userActivitiesFilepath;
 
-    public ResponseEntity<Resource> downloadReport(int hour)  {
-        try{
-            String filename = hour+".csv";
-            File file = new File(filepath+filename);
-            InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+    private ActivityRepositoryService activityRepositoryService;
 
-            return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=\"Activity_Report_"+filename+"\"")
-                    .contentType(MediaType.parseMediaType("application/csv"))
-                    .body(resource);
-        }catch (FileNotFoundException e){
-            return ResponseEntity.notFound().build();
+    private UserRepositoryService userRepositoryService;
+
+    private static final Logger logger = LoggerFactory.getLogger(ActivityReportScheduler.class);
+
+    public ActivityReportService(ActivityRepositoryService activityRepositoryService, UserRepositoryService userRepositoryService) {
+        this.activityRepositoryService = activityRepositoryService;
+        this.userRepositoryService = userRepositoryService;
+    }
+
+    public void generateReport() {
+        List<UserActivity> userActivityList = activityRepositoryService.findLastHourActivities();
+        try {
+            StringBuilder data = new StringBuilder("Id,User,Item,Price,Time\n");
+            for (UserActivity userActivity : userActivityList) {
+                appendDataString(data, userActivity);
+            }
+            String filename = filepath + generateFilename(LocalTime.now().getHour());
+            writeDataToFile(filename, data);
+        } catch (IOException e) {
+            logger.error(e.getMessage());
         }
+    }
+
+    public void generateUserActivity(long id) {
+        logger.info("Generating user-" + id + " activity!");
+        List<UserActivity> userActivityList = activityRepositoryService.findAllActivitiesByUserId(id);
+        try {
+            StringBuilder data = new StringBuilder("Id,User,Item,Price,Time\n");
+            for (UserActivity userActivity : userActivityList) {
+                appendDataString(data, userActivity);
+            }
+            String filename = userActivitiesFilepath + "user-" + id + ".csv";
+            writeDataToFile(filename, data);
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+        }
+    }
+
+    private void appendDataString(StringBuilder data, UserActivity userActivity) {
+        data.append(userActivity.getId()).append(",");
+        data.append(userActivity.getShopUser().getName()).append(",");
+        data.append(userActivity.getItem().getName()).append(",");
+        data.append(userActivity.getItem().getPrice()).append(",");
+        data.append(userActivity.getActivityTime());
+        data.append("\n");
+    }
+
+    private void writeDataToFile(String filepath, StringBuilder data) throws IOException {
+        FileWriter fileWriter = new FileWriter(filepath);
+        fileWriter.write(data.toString());
+        fileWriter.flush();
+    }
+
+    public InputStreamResource createInputStreamResourceForReport(int hour) throws FileNotFoundException {
+        String filename = generateFilename(hour);
+        File file = new File(filepath + filename);
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+        return resource;
+    }
+
+    public InputStreamResource createDownloadUserActivityAction(String username) throws FileNotFoundException {
+        Optional<ShopUser> user = userRepositoryService.findByName(username);
+        generateUserActivity(user.get().getId());
+
+        String filename = userActivitiesFilepath + "user-" + user.get().getId() + ".csv";
+        File file = new File(filename);
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+        return resource;
+    }
+
+    public String generateFilename(int hour) {
+        return hour + ".csv";
     }
 }

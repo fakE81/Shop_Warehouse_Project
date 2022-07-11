@@ -5,6 +5,7 @@ import com.visma.internship.warehouse.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserRepositoryService {
@@ -21,5 +22,9 @@ public class UserRepositoryService {
 
     public void saveUser(ShopUser shopUser) {
         userRepository.save(shopUser);
+    }
+
+    public Optional<ShopUser> findByName(String name){
+        return userRepository.findByName(name).stream().findFirst();
     }
 }

@@ -28,6 +28,7 @@ public class ShopController {
     }
 
     @RequestMapping("/item/{id}")
+    @ResponseBody
     public ItemDTO getItem(@PathVariable("id") int id) {
         return warehouseService.getItem(id);
     }
@@ -41,5 +42,11 @@ public class ShopController {
     @ResponseBody
     public ResponseEntity<Resource> downloadLastHourActivity() {
         return warehouseService.downloadActivity();
+    }
+
+    @RequestMapping(value = "/activity/user/download", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<Resource> downloadUserActivity() {
+        return warehouseService.downloadUserActivity();
     }
 }

@@ -1,8 +1,8 @@
 package com.visma.internship.shop.services;
 
 import com.visma.internship.ItemDTO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.io.Resource;
 import org.springframework.http.*;
@@ -17,20 +17,23 @@ import java.util.List;
 @Service
 public class WarehouseService {
 
-    @Autowired
+    private final RestTemplateBuilder restTemplateBuilder;
+
     private RestTemplate restTemplate;
 
-    @Value("${warehouse.url}")
-    private String warehouseUrl;
     @Value("${login.username}")
     private String username;
     @Value("${login.password}")
     private String password;
 
+    public WarehouseService(RestTemplateBuilder restTemplateBuilder, @Value("${warehouse.url}") String warehouseUrl) {
+        this.restTemplateBuilder = restTemplateBuilder;
+        restTemplate = restTemplateBuilder.rootUri(warehouseUrl).build();
+    }
+
     public List<ItemDTO> getItems() {
-        String url = warehouseUrl + "/api/items";
         ResponseEntity<ArrayList<ItemDTO>> response = restTemplate.exchange(
-                url,
+                "/api/items",
                 HttpMethod.GET,
                 setupHttpEntity(),
                 new ParameterizedTypeReference<>() {
@@ -40,26 +43,24 @@ public class WarehouseService {
     }
 
     public ItemDTO getItem(int id) {
-        String url = warehouseUrl + "/api/item/" + id;
-
         ResponseEntity<ItemDTO> response = restTemplate.exchange(
-                url,
+                "/api/item/{id}",
                 HttpMethod.GET,
                 setupHttpEntity(),
-                ItemDTO.class);
+                ItemDTO.class,
+                id);
 
         return response.getBody();
     }
 
     public ResponseEntity<String> sellItem(int id) {
-        String url = warehouseUrl + "/api/items/" + id;
-
         try {
             ResponseEntity<String> response = restTemplate.exchange(
-                    url,
+                    "/api/items/{id}",
                     HttpMethod.PUT,
                     setupHttpEntity(),
-                    String.class);
+                    String.class,
+                    id);
 
             return response;
 
@@ -69,14 +70,25 @@ public class WarehouseService {
     }
 
     public ResponseEntity<Resource> downloadActivity() {
-        String url = warehouseUrl + "/api/report/download/" + LocalTime.now().getHour();
-        HttpHeaders header = new HttpHeaders();
-        header.setBasicAuth(username, password);
-        header.setAccept(Arrays.asList(MediaType.APPLICATION_OCTET_STREAM));
-        HttpEntity<Resource> entity = new HttpEntity<>(header);
+        String url = "/api/report/download/{hour}";
+        HttpEntity<Resource> entity = setupHttpEntity(MediaType.APPLICATION_OCTET_STREAM);
 
         ResponseEntity<Resource> response = restTemplate.exchange(
-                url,
+                "/api/report/download/{hour}",
+                HttpMethod.GET,
+                entity,
+                Resource.class,
+                LocalTime.now().getHour());
+
+        return response;
+    }
+
+    public ResponseEntity<Resource> downloadUserActivity() {
+        String url = "/api/report/activity/user/download";
+        HttpEntity<Resource> entity = setupHttpEntity(MediaType.APPLICATION_OCTET_STREAM);
+
+        ResponseEntity<Resource> response = restTemplate.exchange(
+                "/api/report/activity/user/download",
                 HttpMethod.GET,
                 entity,
                 Resource.class);
@@ -84,9 +96,18 @@ public class WarehouseService {
         return response;
     }
 
-    public HttpEntity setupHttpEntity() {
+    private HttpEntity setupHttpEntity() {
         HttpHeaders header = new HttpHeaders();
         header.setBasicAuth(username, password);
+        return new HttpEntity(header);
+    }
+
+    private HttpEntity setupHttpEntity(MediaType... accept) {
+        HttpHeaders header = new HttpHeaders();
+        header.setBasicAuth(username, password);
+        if (accept != null) {
+            header.setAccept(Arrays.asList(accept));
+        }
         return new HttpEntity(header);
     }
 

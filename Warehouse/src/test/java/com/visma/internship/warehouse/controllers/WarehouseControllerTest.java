@@ -5,6 +5,8 @@ import com.visma.internship.ItemDTO;
 import com.visma.internship.warehouse.entities.Item;
 import com.visma.internship.warehouse.entities.ShopUser;
 import com.visma.internship.warehouse.entities.UserActivity;
+import com.visma.internship.warehouse.exceptions.ItemNotFoundException;
+import com.visma.internship.warehouse.report.ActivityReportScheduler;
 import com.visma.internship.warehouse.report.ActivityReportService;
 import com.visma.internship.warehouse.services.WarehouseRepositoryService;
 import org.hamcrest.Matchers;
@@ -67,8 +69,8 @@ class WarehouseControllerTest {
 
     @Test
     public void removeItem() throws Exception {
-        Mockito.when(warehouseRepositoryService.sellItemById(500)).thenReturn(ResponseEntity.ok("ok"));
-        Mockito.when(warehouseRepositoryService.sellItemById(-1)).thenReturn(ResponseEntity.notFound().build());
+        Mockito.doThrow(new ItemNotFoundException("Not found")).when(warehouseRepositoryService).sellItemById(-1);
+        Mockito.doNothing().when(warehouseRepositoryService).sellItemById(500);
 
         mockMvc.perform(MockMvcRequestBuilders.put("/api/items/500/"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
